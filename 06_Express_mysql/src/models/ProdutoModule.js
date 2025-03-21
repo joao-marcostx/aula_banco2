@@ -14,7 +14,7 @@ const criandoProduto = async (nomeproduto) => {
   } catch (error) {
     console.error(error);
   }
-};
+}
 
 const mostrarProdutos = async () => {
   console.log("ProdutoModule :: mostrarProdutos");
@@ -43,11 +43,17 @@ const mostrarProdutos = async () => {
   const params = [id_produto];
   try {
     const [resposta] = await conecxao.query(sql, params);
-    console.log(resposta);
-  } catch (error) {
-    console.error(error);
+ 
+      if(resposta.affectedRows > 1){
+        return[404,{mensagem: 'Produto nao encontrado'}];
+      }else{
+        return[200,{mensagem: 'Produto deletado com sucesso'}]; 
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
- }
+ 
 
 
 
@@ -56,4 +62,4 @@ const mostrarProdutos = async () => {
 // mostrarProdutos();
 // criandoProduto('ameixa');
 // atualizandoProduto(1, 'maça');
-deletandoProduto(2);
+console.log(await deletandoProduto(2));
